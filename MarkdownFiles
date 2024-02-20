@@ -1,0 +1,220 @@
+> Kun上的这篇文章[Sunshine内网串流 ](https://www.kungal.com/zh-cn/topic/437)对Moonlight+Sunshine的内网使用教程讲得非常好，推荐大家看看
+
+[串流]基于Moonlight+Sunshine的公网串流"叫程"
+
+本文是**预发布**文章，废话相当多。并且某些教程未经笔者实测，可能实际效果**欠佳**甚至**完全错误**，在此深表歉意。同时欢迎各位批评指正。
+
+本教程未经打磨，写得**很烂**，不适合初学者观看，很多地方并未完善。
+
+
+
+除非另有说明，否则本文章内容依据**CC NC-SA 4.0**许可证进行授权，转载并**不需要**附上出处链接，但您的衍生作品须以同样方式共享，并且不得用于商业目的。
+
+
+
+您可以在文末获取本文章的markdown源文件。
+
+# 序
+
+在移动端上玩PC Galgame主要有三种方法：
+
+1. 选择支持Windows操作系统的移动设备。主要代表为微软的Surface.
+2. 选择由社区大佬自主移植的Android/IOS端的Galgame。代表有
+   - 能直接在/IOS端运行的Galgame
+   - 能在Kirikiri模拟器运行的Android端Galgame
+   - 能在基于ONScript引擎运行的IOS端Galgame(ONSPlayer模拟器，收费)
+3. 串流。Nvidia Shield寄了后，主要代表为Moonlight+Sunshine.
+4. Winlator和Mobox，很神奇，笔者了解比较少，放这里占个坑。链接：[最强大的模拟器Mobox/畅玩99%的PC版Galgame ](https://www.kungal.com/zh-cn/topic/415)
+
+
+
+以上方案各有各的缺点，本文主要介绍公网串流的教程。
+
+# 安全问题
+
+> 本节内容并不完善，是一个小作品。
+
+Sunshine并没有正规CA机构颁发的证书，可能会被某些杀毒软件拦截。
+
+# 准备工作——检查你的环境
+
+人们的环境不尽相同。在开始之前，先检查你的环境，以适配不同的串流方案。
+
+1. 检查你的PC——你是否已经正确安装Sunshine？是否至少进行过一次成功的内网串流？
+
+> 参考[Sunshine内网串流 ](https://www.kungal.com/zh-cn/topic/437)
+
+2. 检查你的串流设备——你的终端的操作系统是**Android**还是**IOS/iPadOS** ？
+
+3. 检查你的互联网环境——你是否有**公网IPv4地址**？你的互联网环境是否支持**IPv6**？
+
+==串流设备和被串流设备都需要支持ipv6==
+
+> 可以考虑去[这个网站](https://www.test-ipv6.com/)验证自己是否具有IPv6
+
+
+
+**本文章重点介绍IPv6的配置**
+
+
+
+# 串流拓扑图
+
+![串流拓扑图](https://www.sayhuahuo.xyz/images/images/2024/02/20/dAZIREy0XO/%E4%B8%B2%E6%B5%81%E6%8B%93%E6%89%91%E5%9B%BE.png)
+
+## 配置PC端上的Sunshine
+
+输入url：https://localhost:47990/config , 进入Sunshine配置界面
+
+![Sunshine配置01](https://www.sayhuahuo.xyz/images/images/2024/02/20/JD9p5wcfnj/Sunshine%E9%85%8D%E7%BD%AE01.png)
+
+把"Origin Web UI Allowed"项的"Only localhost may access Web UI"改为"Anyone may access Web UI".
+
+这项设置允许公网设备访问此计算机，当然，这会有很大的**安全风险**。在进行公网串流时，请勿泄露您的PIN码！
+
+![Sunshine UPnP](https://www.sayhuahuo.xyz/images/images/2024/02/20/E9Pz2DesIE/Sunshine%20UPnP.png)
+
+开启UPnP，允许Sunshine自动配置端口转发
+
+![Sunshine_ipv6](https://www.sayhuahuo.xyz/images/images/2024/02/20/rxCCcscMz4/Sunshine_ipv6.png)
+
+【可选】在Advanced一栏勾选"IPv4+IPv6"
+
+## 配置网络连接
+
+- ### 如果你有公网IPv4，且串流设备为Android端
+
+> 本节内容并不完善，是一个小作品。
+
+> [!WARNING]
+>
+> 请勿泄露您的公网IPv4地址
+
+> [!NOTE]
+>
+> 由于笔者并没有公网IPv4地址，未经实测。以下均为**瞎说**。
+
+把光猫改为桥接，进路由器设置界面把此计算机设为DMZ主机（如果你觉得不太安全可以去Sunshine-Advanced界面查询你想要开放的端口）。之后在Moonlight界面输入你的公网IPv4地址。
+
+（这一小节写得很烂=_=）
+
+- ### 如果你有公网IPv4，且串流设备为IOS/iPadOS端
+
+很遗憾，App Store上的Moonlight并不支持公网IPv4连接
+
+![苹果Sunshine限制01](https://www.sayhuahuo.xyz/images/images/2024/02/20/2QOZorgGDi/%E8%8B%B9%E6%9E%9CMoonlight%E9%99%90%E5%88%B601.png)
+
+![苹果Sunshine限制02](https://www.sayhuahuo.xyz/images/images/2024/02/20/CXdlWrhU3Q/%E8%8B%B9%E6%9E%9CMoonlight%E9%99%90%E5%88%B602.png)
+
+参见[Github](https://github.com/moonlight-stream/moonlight-ios/issues/417)
+
+幸运的是，IOS Moonlight支持公网ipv6连接。我们将在之后讨论它。
+
+
+
+- ### 如果你的互联网环境(串流电脑与串流终端)支持IPv6
+
+> 本节内容并不完善，是一个小作品。
+>
+
+> [!WARNING]
+>
+> 理论上来说，IPv6地址会频繁变化。泄露出去并不会造成什么大的问题。但会查到您的县级地址（例如浙江省杭州市富阳区，就......挺生艹的，还是尽量不要泄露吧。
+
+笔者路由器的IPv6设置。型号为TL-WDR7660. IPv6地址获取协议为**自动**，前缀授权**开启**，DNS服务器**自动连接**。局域网内，主机配置为SLACC，DNS配置为DHCPv6
+
+以上配置仅供参考，笔者非科班出身，未学过系统的网络知识。我不清楚SLACC与DHCPv6的具体差别，一路auto（自动）过去就完事~
+
+<img src="https://www.sayhuahuo.xyz/images/images/2024/02/20/elmGXiOh38/%E5%A4%8F%E7%9B%AE%E9%9B%AB.png" alt="夏目雫" style="zoom: 50%;" />
+
+如果一切进展顺利，打开cmd，键入ipconfig. 就会看到此计算机的IPv6地址
+
+![cmd地址](https://www.sayhuahuo.xyz/images/images/2024/02/20/JShbz2h7Wr/cmd%E5%9C%B0%E5%9D%80.png)
+
+## 配置终端上的Moonlight
+
+只需打开你的手机，输入IPv4/IPv6地址即可
+
+> [!NOTE]
+>
+> 请注意，输入IPv6地址时要加上"[ ]".例如，应该输入 [26e2:9u2d] 而不是 26e2:9u2d 
+
+Android与IOS/iPadOS并无大的区别
+
+Android
+
+<img src="https://www.sayhuahuo.xyz/images/images/2024/02/20/FCKC2vtV4F/Android.jpg" alt="Android" style="zoom:25%;" />
+
+iPadOS
+
+![iPadOS](https://www.sayhuahuo.xyz/images/images/2024/02/20/B6Z5mZT7oa/iPadOS.png)
+
+
+
+# 画饼时间
+
+如你所见，本篇文章写得十分潦草，需要进一步的补充。
+
+未来可能添加的内容（某些内容我也不会，可能会永久鸽了）
+
+- [ ] "*Down the Streaming-Hole*"——添加目录，知道我们想要解决什么问题
+- [ ] "*It’s my own Invention*"——完善公网IPv4的具体配置（Android）
+- [ ] "*What is IPv4? No IPv6; What is IPv6? Never IPv4*"——完善IPv6配置的具体细节，更正错误
+- [ ] 内网穿透——学习使用Sakura Frp进行内网穿透，以实现公网IPv4连接
+- [ ] 应对意外情况——学习使用ToDesk远控软件进行串流辅助
+- [ ] 阻断恶意连接——使用Kaspersky保护串流主机
+- [ ] 避免社死——学习如何关闭串流主机的屏幕和声音
+- [ ] "*Which Dreamed It*"——移动党的梦想：4K/60FPS的galgame
+- [ ] "*Scaling-glass Insects*"——学习配置Magpie和Lossless Scaling，把《樱之诗》打扮成《樱之刻》
+- [ ] 超越UI的限制——某些galgame（樱之刻）的UI功能不太友好（没有"回看功能"的UI），学习利用有线/无线鼠标进行OTG连接
+- [ ] "*JoytoKey*"——利用Xbox手柄进行无线蓝牙连接，使用JoytoKey模拟鼠标功能
+- [ ] "*The Happy Measure and Other Ways*"——将串流与其他移动端推galgame的方法进行综合比较，指出其优点以及局限性
+
+# 最终效果预览
+
+![公网串流演示](https://www.sayhuahuo.xyz/images/images/2024/02/20/AWDOERv2nC/%E5%85%AC%E7%BD%91%E4%B8%B2%E6%B5%81%E6%BC%94%E7%A4%BA.jpg)
+
+（这张图片里的iPad与计算机**不处于**一个局域网）
+
+以下演示环境大部分为**公网**环境，串流画质为 4K/60FPS
+
+协商速率 上行下行均为: 70Mbps
+
+![串流演示](https://www.sayhuahuo.xyz/images/images/2024/02/20/WSn5u4TOmc/%E5%85%AC%E7%BD%91%E4%B8%B2%E6%B5%81.jpg)
+
+利用*Lossless Scaling*里的Anime4K算法将1280\*720的galgame放大为3840\*1260的galgame
+
+即使使用UL(UltraLarge)版本Anime4K，4060laptop显卡压力也不大，可见其并不太吃GPU的性能
+
+（不同版本的Anime4K实际效果差距很小）
+
+![Lossless Scaling](https://www.sayhuahuo.xyz/images/images/2024/02/20/TK6krPVORs/Lossless%20Scaling.jpg)
+
+Moonlight面板数据，可以稳到4K/60FPS，丢包率为0，延迟也非常低。（实际延迟取决于你的网络，主机和客机的性能）（iPadOS moonlight似乎不显示解码时间......）
+
+![樱之刻封面演示](https://www.sayhuahuo.xyz/images/images/2024/02/20/ROiGg7ISVY/%E4%B8%B2%E6%B5%81%E9%9D%A2%E6%9D%BF%E6%80%A7%E8%83%BD%E5%8E%8B%E7%BC%A9.png)
+
+Moonlight提供基础的触控功能，只能进行鼠标左键单击的操作。
+![触摸屏](https://www.sayhuahuo.xyz/images/images/2024/02/20/sq5cvRDqmo/%E8%A7%A6%E6%91%B8%E5%B1%8F.png)
+
+使用无线鼠标与iPad建立OTG连接，以实现完整的鼠标操作
+
+![樱之刻-OTG](https://www.sayhuahuo.xyz/images/images/2024/02/20/hTF6WWqQKt/OTG.jpg)
+
+使用 JoytoKey 软件可以令Xbox手柄模拟鼠标操作（Xbox手柄的好处是可以直接进行蓝牙连接）
+
+![樱之刻-JoytoKey](https://www.sayhuahuo.xyz/images/images/2024/02/20/nO5fJM4Dte/JoytoKey.jpg)
+
+最终效果：躺在床上推galgame
+
+![樱之诗-床上睡觉](https://www.sayhuahuo.xyz/images/images/2024/02/20/0E7McjJKW9/%E8%BA%BA%E5%9C%A8%E5%BA%8A%E4%B8%8A%E6%8E%A8galgame.jpg)
+
+# 致谢
+
+感谢**Kun**提供的galgame交流平台
+
+感谢**花火学园**提供的图床服务
+
+
+
+> Markdown edited by Typora
